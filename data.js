@@ -7,9 +7,9 @@
 const PROFILE = {
   name: "Alejandro Insfran",
   fullName: "Alejandro Daniel Insfran Cañete",
-  email: "tu-correo@ejemplo.com",                         // CAMBIAR
-  github: "https://github.com/TU-USUARIO",                // CAMBIAR
-  linkedin: "https://www.linkedin.com/in/TU-PERFIL",      // CAMBIAR
+  email: "aleinsfranwork@gmail.com",                         // CAMBIAR
+  github: "https://github.com/ale13211",                // CAMBIAR
+  linkedin: "https://www.linkedin.com/in/alejandro-daniel-insfran-cañete-721518279?utm_source=share_via&utm_content=profile&utm_medium=member_ios",      // CAMBIAR
   cv: { es: "CV_Alejandro_Insfran_ES.pdf", en: "CV_Alejandro_Insfran_EN.pdf" },
   location: { es: "San Lorenzo, Paraguay", en: "San Lorenzo, Paraguay" },
 };
