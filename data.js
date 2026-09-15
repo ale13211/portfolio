@@ -5,8 +5,8 @@
    ===================================================================== */
 
 const PROFILE = {
-  name: "Alejandro Insfrán",
-  fullName: "Alejandro Daniel Insfrán Cañete",
+  name: "Alejandro Insfran",
+  fullName: "Alejandro Daniel Insfran Cañete",
   email: "tu-correo@ejemplo.com",                         // CAMBIAR
   github: "https://github.com/TU-USUARIO",                // CAMBIAR
   linkedin: "https://www.linkedin.com/in/TU-PERFIL",      // CAMBIAR
