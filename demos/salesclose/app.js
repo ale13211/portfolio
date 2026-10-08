@@ -1,1 +1,0 @@
-const m=document.querySelector('#modal');lead.onclick=()=>m.classList.add('open');m.onclick=e=>e.target===m&&m.classList.remove('open');save.onclick=()=>{count.textContent=Number(count.textContent)+1;m.classList.remove('open');alert((name.value||'El lead')+' fue agregado al pipeline.')}
