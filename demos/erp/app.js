@@ -1,44 +1,44 @@
 const modal=document.querySelector('#modal');
 const money=value=>'₲ '+Math.round(value).toLocaleString('es-PY');
 let totals={sales:48200000,profit:16830000,commission:2410000};
-const saleButton=document.querySelector('#sale');
-const saveButton=document.querySelector('#save');
-const cancelButton=document.querySelector('#cancel');
-const customer=document.querySelector('#customer');
-const saleInput=document.querySelector('#sale-total-input');
-const movements=document.querySelector('#movements');
-const status=document.querySelector('#status');
-const inventoryButton=document.querySelector('#inventory-btn');
-const inventoryBody=document.querySelector('#inventory-body');
-saleButton.addEventListener('click',()=>modal.classList.add('open'));
-cancelButton.addEventListener('click',()=>modal.classList.remove('open'));
-modal.addEventListener('click',event=>{if(event.target===modal) modal.classList.remove('open')});
-function renderTotals(){
-  document.querySelector('#sales-total').textContent=money(totals.sales);
-  document.querySelector('#profit-total').textContent=money(totals.profit);
-  document.querySelector('#commission-total').textContent=money(totals.commission);
+let currentView='Dashboard';
+let expandedInventory=false;
+const products=[['Monitor 24”',3,'Reponer'],['Teclado mecánico',5,'Reponer'],['Mouse inalámbrico',12,'Correcto'],['Webcam HD',18,'Correcto'],['Hub USB-C',24,'Correcto']];
+const salesRows=[['Distribuidora Central','Mayorista',1850000],['María R.','Tienda online',420000]];
+const moduleContent=document.querySelector('#module-content');
+const inventoryRows=(all=false)=>products.slice(0,all?products.length:3).map(([name,stock,state])=>'<tr><td>'+name+'</td><td>'+stock+'</td><td><span class="badge">'+state+'</span></td></tr>').join('');
+function renderDashboard(){
+ return '<div class="grid"><article class="card metric"><span>Ventas netas</span><strong>'+money(totals.sales)+'</strong><b class="up">↑ 18% este mes</b></article><article class="card metric"><span>Utilidad bruta</span><strong>'+money(totals.profit)+'</strong><b class="up">34,9% margen</b></article><article class="card metric"><span>Stock bajo</span><strong>6</strong><b class="up">Productos a reponer</b></article><article class="card metric"><span>Comisiones</span><strong>'+money(totals.commission)+'</strong><b class="up">3 vendedores</b></article></div><div class="two"><article class="card"><div class="split"><h2>Inventario crítico</h2><button class="btn light" id="inventory-btn">Ver inventario</button></div><table class="table"><thead><tr><th>Producto</th><th>Stock</th><th>Estado</th></tr></thead><tbody>'+inventoryRows(expandedInventory)+'</tbody></table></article><article class="card"><h2>Rentabilidad por negocio</h2><div class="row"><span>Tienda online</span><b>₲ 9.200.000</b></div><div class="bar"><i style="width:78%"></i></div><div class="row"><span>Ventas mayoristas</span><b>₲ 5.800.000</b></div><div class="bar"><i style="width:52%"></i></div><div class="row"><span>Servicios</span><b>₲ 1.830.000</b></div><div class="bar"><i style="width:24%"></i></div></article></div><article class="card" style="margin-top:14px"><div class="split"><h2>Movimientos recientes</h2><span class="badge" id="status">Demo interactiva</span></div><table class="table"><thead><tr><th>Cliente</th><th>Canal</th><th>Total</th></tr></thead><tbody>'+salesRows.map(r=>'<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+money(r[2])+'</td></tr>').join('')+'</tbody></table></article>';
 }
-saveButton.addEventListener('click',()=>{
-  const amount=Number(saleInput.value);
-  const name=customer.value.trim();
-  if(!name||!Number.isFinite(amount)||amount<=0){status.textContent='Completá cliente y total válido';return}
-  totals.sales+=amount; totals.profit+=amount*.349; totals.commission+=amount*.05; renderTotals();
-  const row=document.createElement('tr');
-  row.innerHTML='<td>'+name.replace(/[<>&]/g,'')+'</td><td>Tienda online</td><td>'+money(amount)+'</td>';
-  movements.prepend(row);
-  status.textContent='Venta registrada';
-  modal.classList.remove('open'); customer.value=''; saleInput.value='';
+function renderModule(view){
+ const modules={
+ Ventas:'<div class="grid"><article class="card metric"><span>Facturado hoy</span><strong>₲ 2.270.000</strong><b class="up">12 operaciones</b></article><article class="card metric"><span>Ticket promedio</span><strong>₲ 189.000</strong><b class="up">↑ 8% vs. ayer</b></article><article class="card metric"><span>Conversión</span><strong>31%</strong><b class="up">+4,2 puntos</b></article><article class="card metric"><span>Meta mensual</span><strong>68%</strong><b class="up">En curso</b></article></div><article class="card" style="margin-top:14px"><div class="split"><h2>Pedidos y ventas</h2><button class="btn" id="sales-new">+ Nueva venta</button></div><table class="table"><thead><tr><th>Cliente</th><th>Canal</th><th>Total</th><th>Estado</th></tr></thead><tbody>'+salesRows.map(r=>'<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+money(r[2])+'</td><td><span class="badge">Cobrado</span></td></tr>').join('')+'</tbody></table></article>',
+ Inventario:'<div class="two"><article class="card"><div class="split"><h2>Stock por producto</h2><button class="btn" id="restock">Reponer críticos</button></div><table class="table"><thead><tr><th>Producto</th><th>Stock</th><th>Estado</th></tr></thead><tbody>'+inventoryRows(true)+'</tbody></table><p class="subtitle" id="stock-note" style="margin-top:16px">6 unidades requieren reposición.</p></article><article class="card"><h2>Valor del inventario</h2><div class="metric"><span>Stock valorizado</span><strong>₲ 124.600.000</strong></div><div class="row"><span>Rotación mensual</span><b>4,2x</b></div><div class="row"><span>Productos activos</span><b>86</b></div></article></div>',
+ Compras:'<div class="two"><article class="card"><div class="split"><h2>Órdenes de compra</h2><button class="btn" id="purchase-new">+ Nueva orden</button></div><table class="table"><thead><tr><th>Proveedor</th><th>Entrega</th><th>Total</th><th>Estado</th></tr></thead><tbody id="purchase-list"><tr><td>Importadora Norte</td><td>14 oct.</td><td>₲ 8.600.000</td><td><span class="badge">En tránsito</span></td></tr><tr><td>Tech Supply</td><td>18 oct.</td><td>₲ 3.240.000</td><td><span class="badge">Pendiente</span></td></tr></tbody></table></article><article class="card"><h2>Proveedores</h2><div class="row"><span>Importadora Norte</span><b>95% cumplimiento</b></div><div class="row"><span>Tech Supply</span><b>92% cumplimiento</b></div><div class="row"><span>Electro SRL</span><b>88% cumplimiento</b></div></article></div>',
+ Comisiones:'<div class="grid"><article class="card metric"><span>Comisiones acumuladas</span><strong>'+money(totals.commission)+'</strong><b class="up">Octubre 2026</b></article><article class="card metric"><span>Por liquidar</span><strong>₲ 680.000</strong><b class="up">3 vendedores</b></article><article class="card metric"><span>Pagadas</span><strong>₲ 1.730.000</strong><b class="up">Este mes</b></article><article class="card metric"><span>Promedio</span><strong>5%</strong><b class="up">Sobre ventas</b></article></div><article class="card" style="margin-top:14px"><div class="split"><h2>Liquidación por vendedor</h2><button class="btn" id="settle">Marcar como liquidado</button></div><table class="table"><thead><tr><th>Vendedor</th><th>Ventas</th><th>Comisión</th><th>Estado</th></tr></thead><tbody><tr><td>Lucía Martínez</td><td>₲ 14.800.000</td><td>₲ 740.000</td><td><span class="badge">Pendiente</span></td></tr><tr><td>Jorge Rojas</td><td>₲ 12.400.000</td><td>₲ 620.000</td><td><span class="badge">Pendiente</span></td></tr><tr><td>Andrea Gómez</td><td>₲ 8.600.000</td><td>₲ 430.000</td><td><span class="badge">Pagado</span></td></tr></tbody></table><p class="subtitle" id="settle-note" style="margin-top:16px">Elegí la liquidación pendiente para continuar.</p></article>'
+ };
+ return modules[view]||renderDashboard();
+}
+function render(){
+ const titles={Dashboard:['Todo tu negocio, conectado.','Vista consolidada · Octubre 2026 · Datos de demostración'],Ventas:['Ventas y clientes','Seguimiento de pedidos, canales y facturación'],Inventario:['Inventario','Control de existencias y reposición'],Compras:['Compras','Órdenes, proveedores y abastecimiento'],Comisiones:['Comisiones','Liquidación comercial por vendedor']};
+ document.querySelector('#page-title').textContent=titles[currentView][0];document.querySelector('#page-subtitle').textContent=titles[currentView][1];moduleContent.innerHTML=currentView==='Dashboard'?renderDashboard():renderModule(currentView);
+ bindModuleActions();
+}
+function bindModuleActions(){
+ document.querySelector('#inventory-btn')?.addEventListener('click',()=>{expandedInventory=!expandedInventory;render()});
+ document.querySelector('#sales-new')?.addEventListener('click',()=>modal.classList.add('open'));
+ document.querySelector('#restock')?.addEventListener('click',event=>{event.target.textContent='Reposición creada';event.target.disabled=true;document.querySelector('#stock-note').textContent='Orden de reposición creada para 2 productos críticos.'});
+ document.querySelector('#purchase-new')?.addEventListener('click',()=>{document.querySelector('#purchase-list').insertAdjacentHTML('afterbegin','<tr><td>Proveedor demo</td><td>21 oct.</td><td>₲ 1.250.000</td><td><span class="badge">Pendiente</span></td></tr>')});
+ document.querySelector('#settle')?.addEventListener('click',event=>{event.target.textContent='Liquidación registrada';event.target.disabled=true;document.querySelector('#settle-note').textContent='Liquidación demo registrada correctamente.'});
+}
+document.querySelector('#sale').addEventListener('click',()=>modal.classList.add('open'));
+document.querySelector('#cancel').addEventListener('click',()=>modal.classList.remove('open'));
+modal.addEventListener('click',event=>{if(event.target===modal)modal.classList.remove('open')});
+document.querySelector('#save').addEventListener('click',()=>{
+ const name=document.querySelector('#customer').value.trim(),amount=Number(document.querySelector('#sale-total-input').value);
+ if(!name||!Number.isFinite(amount)||amount<=0)return;
+ totals.sales+=amount;totals.profit+=amount*.349;totals.commission+=amount*.05;salesRows.unshift([name.replace(/[<>&]/g,''),'Tienda online',amount]);
+ modal.classList.remove('open');document.querySelector('#customer').value='';document.querySelector('#sale-total-input').value='';render();
 });
-let expanded=false;
-inventoryButton.addEventListener('click',()=>{
- expanded=!expanded;
- inventoryButton.textContent=expanded?'Ver críticos':'Ver inventario';
- inventoryBody.innerHTML=expanded
- ?'<tr><td>Monitor 24”</td><td>3</td><td><span class="badge">Reponer</span></td></tr><tr><td>Teclado mecánico</td><td>5</td><td><span class="badge">Reponer</span></td></tr><tr><td>Mouse inalámbrico</td><td>12</td><td><span class="badge">Correcto</span></td></tr><tr><td>Webcam HD</td><td>18</td><td><span class="badge">Correcto</span></td></tr><tr><td>Hub USB-C</td><td>24</td><td><span class="badge">Correcto</span></td></tr>'
- :'<tr><td>Monitor 24”</td><td>3</td><td><span class="badge">Reponer</span></td></tr><tr><td>Teclado mecánico</td><td>5</td><td><span class="badge">Reponer</span></td></tr><tr><td>Mouse inalámbrico</td><td>12</td><td><span class="badge">Correcto</span></td></tr>';
-});
-document.querySelectorAll('[data-view]').forEach(item=>item.addEventListener('click',()=>{
- document.querySelectorAll('[data-view]').forEach(link=>link.classList.remove('active')); item.classList.add('active');
- document.querySelector('#page-title').textContent=item.dataset.view==='Dashboard'?'Todo tu negocio, conectado.':item.dataset.view;
- document.querySelector('#page-subtitle').textContent='Vista de '+item.dataset.view.toLowerCase()+' · Datos de demostración';
-}));
+document.querySelectorAll('[data-view]').forEach(item=>item.addEventListener('click',()=>{document.querySelectorAll('[data-view]').forEach(link=>link.classList.remove('active'));item.classList.add('active');currentView=item.dataset.view;render()}));
+render();
