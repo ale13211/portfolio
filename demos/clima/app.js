@@ -1,3 +1,4 @@
+const cityPicker=document.querySelector('#city-picker');
 const cities={
   asuncion:{name:'Asunción',temp:29,feels:32,condition:'Parcialmente nublado',humidity:'68%',wind:'14 km/h',icon:'☀',hours:[29,31,32,33,32,29,26],week:[['Hoy','⛅',21,33],['Mañana','☀',20,34],['Viernes','🌦',19,28],['Sábado','⛅',18,26],['Domingo','☀',19,30],['Lunes','🌧',20,25],['Martes','🌤',19,29]]},
   'san-lorenzo':{name:'San Lorenzo',temp:27,feels:29,condition:'Nublado con claros',humidity:'74%',wind:'11 km/h',icon:'⛅',hours:[27,28,29,29,28,26,23],week:[['Hoy','⛅',20,29],['Mañana','🌦',19,27],['Viernes','🌧',18,25],['Sábado','⛅',17,27],['Domingo','☀',18,30],['Lunes','🌤',19,29],['Martes','☀',20,31]]},
