@@ -1,0 +1,1 @@
+const rates={buy:7350,sell:7300};function calc(){const v=Number(usd.value||0)*rates[type.value];result.textContent=type.value==='buy'?\`Vas a pagar ₲ ${v.toLocaleString('es-PY')}\`:\`Vas a recibir ₲ ${v.toLocaleString('es-PY')}\`}calculate.onclick=calc;usd.oninput=calc;type.onchange=calc;calc();
