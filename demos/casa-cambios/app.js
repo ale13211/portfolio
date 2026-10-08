@@ -1,28 +1,38 @@
-const rates={buy:7350,sell:7300};
-const usd=document.querySelector('#usd'),type=document.querySelector('#type'),result=document.querySelector('#result');
-let cash=82450000;
+const currencies={USD:{name:'Dólar estadounidense',spread:.012},EUR:{name:'Euro',spread:.018},BRL:{name:'Real brasileño',spread:.025},ARS:{name:'Peso argentino',spread:.05},CLP:{name:'Peso chileno',spread:.04},UYU:{name:'Peso uruguayo',spread:.035}};
+const fallback={USD:7350,EUR:7900,BRL:1390,ARS:6.9,CLP:7.8,UYU:180};
+let midRates={...fallback},cash=82450000,currentView='Operaciones';
 const money=value=>'₲ '+Math.round(value).toLocaleString('es-PY');
-function calc(){
- const amount=Number(usd.value||0), value=amount*rates[type.value];
- result.textContent=amount>0?(type.value==='buy'?'Vas a pagar ':'Vas a recibir ')+money(value):'Ingresá un monto válido';
- return {amount,value};
+const rateFor=(code,type)=>Math.round(midRates[code]*(type==='buy'?1-currencies[code].spread:1+currencies[code].spread));
+const currencyOptions=Object.entries(currencies).map(([code,data])=>'<option value="'+code+'">'+code+' · '+data.name+'</option>').join('');
+function quoteRows(){return Object.keys(currencies).map(code=>'<tr><td><b>'+code+'</b><br><small>'+currencies[code].name+'</small></td><td>'+money(rateFor(code,'buy'))+'</td><td>'+money(rateFor(code,'sell'))+'</td></tr>').join('')}
+function calculator(){return '<article class="card"><h2>Calculadora de cambio</h2><label>Divisa<select id="currency">'+currencyOptions+'</select></label><label>Operación<select id="type"><option value="buy">Comprar divisa</option><option value="sell">Vender divisa</option></select></label><label>Monto<input id="amount" type="number" min="1" value="100"></label><div class="notice" id="result"></div><button class="btn" id="calculate" style="margin-top:16px">Calcular</button> <button class="btn light" id="register" style="margin-top:16px">Registrar en demo</button></article>'}
+function quoteCard(){return '<article class="card"><div class="split"><h2>Cotizaciones referenciales</h2><button class="btn light" id="refresh-rates">Actualizar</button></div><p class="subtitle" id="rate-source">Valores calculados desde una cotización pública USD/PYG; compra y venta incluyen margen demo.</p><div class="table-wrap"><table class="table"><thead><tr><th>Moneda</th><th>Compra</th><th>Venta</th></tr></thead><tbody>'+quoteRows()+'</tbody></table></div></article>'}
+function renderOperations(){return '<div class="two">'+calculator()+quoteCard()+'</div><div class="two"><article class="card"><h2>Últimas operaciones</h2><div id="operations"><div class="row"><span>Compra USD · Cliente 0241</span><b>USD 500</b></div><div class="row"><span>Venta BRL · Cliente 0189</span><b>BRL 2.000</b></div><div class="row"><span>Compra EUR · Cliente 0037</span><b>EUR 150</b></div></div></article><article class="card"><h2>Control de caja</h2><div class="metric"><span>Saldo en guaraníes</span><strong id="cash">'+money(cash)+'</strong></div><div class="notice" id="cash-status">Caja conciliada · Datos de demostración</div></article></div>'}
+function renderModule(view){
+ const modules={
+ Cotizaciones:quoteCard()+'<article class="card" style="margin-top:14px"><h2>Cómo se calcula</h2><p class="subtitle">La API provee una tasa media de referencia. La demo aplica márgenes distintos por divisa para simular precio de compra y venta. No constituye una cotización comercial.</p></article>',
+ Clientes:'<div class="two"><article class="card"><div class="split"><h2>Clientes recientes</h2><button class="btn" id="new-client">+ Nuevo cliente</button></div><table class="table"><thead><tr><th>Cliente</th><th>Documento</th><th>Última operación</th></tr></thead><tbody id="client-list"><tr><td>Cliente 0241</td><td>CI verificada</td><td>Hoy · USD 500</td></tr><tr><td>Cliente 0189</td><td>CI verificada</td><td>Ayer · BRL 2.000</td></tr><tr><td>Cliente 0037</td><td>CI verificada</td><td>12 oct. · EUR 150</td></tr></tbody></table></article><article class="card"><h2>Validaciones</h2><div class="row"><span>Documentación vigente</span><b class="up">100%</b></div><div class="row"><span>Revisión pendiente</span><b>2 clientes</b></div></article></div>',
+ Caja:'<div class="two"><article class="card"><h2>Disponibilidad en caja</h2><div class="metric"><span>Guaraníes disponibles</span><strong id="cash">'+money(cash)+'</strong></div><div class="row"><span>USD disponibles</span><b>USD 12.850</b></div><div class="row"><span>EUR disponibles</span><b>EUR 4.320</b></div><button class="btn light" id="reconcile" style="margin-top:16px">Conciliar caja</button><p class="subtitle" id="reconcile-note" style="margin-top:14px">Última conciliación: hoy, 10:42.</p></article><article class="card"><h2>Movimientos del día</h2><div class="row"><span>Ingresos</span><b class="up">₲ 18.450.000</b></div><div class="row"><span>Egresos</span><b>₲ 13.280.000</b></div><div class="row"><span>Variación neta</span><b>₲ 5.170.000</b></div></article></div>',
+ Reportes:'<div class="grid"><article class="card metric"><span>Operaciones hoy</span><strong>37</strong><b class="up">↑ 12% vs. ayer</b></article><article class="card metric"><span>Volumen operado</span><strong>₲ 31,7 M</strong><b class="up">En guaraníes</b></article><article class="card metric"><span>Divisa principal</span><strong>USD</strong><b class="up">58% del volumen</b></article><article class="card metric"><span>Clientes únicos</span><strong>29</strong><b class="up">Hoy</b></article></div><article class="card" style="margin-top:14px"><div class="split"><h2>Resumen diario</h2><button class="btn" id="download-report">Generar resumen</button></div><div class="row"><span>Compra de divisas</span><b>₲ 16.800.000</b></div><div class="row"><span>Venta de divisas</span><b>₲ 14.900.000</b></div><p class="subtitle" id="report-note" style="margin-top:14px">Datos simulados para la demostración.</p></article>'
+ };return modules[view]||renderOperations();
 }
-document.querySelector('#calculate').addEventListener('click',calc);
-usd.addEventListener('input',calc); type.addEventListener('change',calc);
-document.querySelector('#register').addEventListener('click',()=>{
- const {amount,value}=calc(); if(!amount||amount<=0)return;
- const action=type.value==='buy'?'Compra USD':'Venta USD';
- const row=document.createElement('div'); row.className='row';
- row.innerHTML='<span>'+action+' · Operación demo</span><b>USD '+amount.toLocaleString('es-PY')+'</b>';
- document.querySelector('#operations').prepend(row);
- cash+=type.value==='buy'?-value:value;
- document.querySelector('#cash').textContent=money(cash);
- document.querySelector('#cash-status').textContent='Operación demo registrada · Caja actualizada';
- result.textContent='Operación registrada en la demo: '+money(value);
-});
-document.querySelectorAll('[data-view]').forEach(item=>item.addEventListener('click',()=>{
- document.querySelectorAll('[data-view]').forEach(link=>link.classList.remove('active'));item.classList.add('active');
- document.querySelector('#page-title').textContent=item.dataset.view==='Operaciones'?'Operá con precisión.':item.dataset.view;
- document.querySelector('#page-subtitle').textContent='Módulo de '+item.dataset.view.toLowerCase()+' · Datos de demostración';
-}));
-calc();
+function titles(view){return {Operaciones:['Operá con precisión.','Simulador de compra y venta de divisas · No procesa operaciones reales'],Cotizaciones:['Cotizaciones','Precios referenciales actualizados desde una API pública'],Clientes:['Clientes','Consulta de clientes y validaciones demo'],Caja:['Caja','Disponibilidad y conciliación de divisas'],Reportes:['Reportes','Indicadores operativos de demostración']}[view]}
+function render(){const [title,subtitle]=titles(currentView);document.querySelector('#page-title').textContent=title;document.querySelector('#page-subtitle').textContent=subtitle;document.querySelector('#module-content').innerHTML=currentView==='Operaciones'?renderOperations():renderModule(currentView);bindActions()}
+function calculate(){const amount=Number(document.querySelector('#amount').value||0),code=document.querySelector('#currency').value,type=document.querySelector('#type').value,rate=rateFor(code,type),result=document.querySelector('#result');result.textContent=amount>0?(type==='buy'?'Vas a pagar ':'Vas a recibir ')+money(amount*rate)+' · '+code+' '+amount.toLocaleString('es-PY')+' a '+money(rate)+' por unidad':'Ingresá un monto válido';return {amount,code,type,value:amount*rate}}
+function bindActions(){
+ document.querySelector('#calculate')?.addEventListener('click',calculate);document.querySelector('#amount')?.addEventListener('input',calculate);document.querySelector('#type')?.addEventListener('change',calculate);document.querySelector('#currency')?.addEventListener('change',calculate);
+ document.querySelector('#register')?.addEventListener('click',()=>{const {amount,code,type,value}=calculate();if(!amount||amount<=0)return;const action=type==='buy'?'Compra':'Venta';document.querySelector('#operations').insertAdjacentHTML('afterbegin','<div class="row"><span>'+action+' '+code+' · Operación demo</span><b>'+code+' '+amount.toLocaleString('es-PY')+'</b></div>');cash+=type==='buy'?-value:value;document.querySelector('#cash').textContent=money(cash);document.querySelector('#cash-status').textContent='Operación demo registrada · Caja actualizada';});
+ document.querySelector('#refresh-rates')?.addEventListener('click',loadRates);
+ document.querySelector('#new-client')?.addEventListener('click',()=>document.querySelector('#client-list').insertAdjacentHTML('afterbegin','<tr><td>Cliente demo</td><td>CI pendiente</td><td>Sin operaciones</td></tr>'));
+ document.querySelector('#reconcile')?.addEventListener('click',()=>document.querySelector('#reconcile-note').textContent='Caja conciliada en esta demostración.');
+ document.querySelector('#download-report')?.addEventListener('click',()=>document.querySelector('#report-note').textContent='Resumen demo generado: 37 operaciones y ₲ 31,7 M de volumen.');
+ if(document.querySelector('#amount'))calculate();
+}
+async function loadRates(){
+ const state=document.querySelector('#quote-state');state.textContent='Actualizando cotizaciones…';
+ try{const response=await fetch('https://open.er-api.com/v6/latest/USD');if(!response.ok)throw new Error('API no disponible');const data=await response.json();if(data.result!=='success'||!data.rates?.PYG)throw new Error('Respuesta inválida');Object.keys(currencies).forEach(code=>{const baseRate=data.rates[code];if(!baseRate)throw new Error('Divisa incompleta');midRates[code]=data.rates.PYG/baseRate});state.textContent='Cotizaciones actualizadas · API pública';}
+ catch(error){state.textContent='Cotizaciones referenciales · respaldo local';}
+ render();
+}
+document.querySelectorAll('[data-view]').forEach(item=>item.addEventListener('click',()=>{document.querySelectorAll('[data-view]').forEach(link=>link.classList.remove('active'));item.classList.add('active');currentView=item.dataset.view;render()}));
+render();loadRates();
