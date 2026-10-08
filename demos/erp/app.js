@@ -1,0 +1,1 @@
+const m=document.querySelector('#modal');sale.onclick=()=>m.classList.add('open');m.onclick=e=>e.target===m&&m.classList.remove('open');save.onclick=()=>{m.classList.remove('open');alert('Venta registrada en esta demo local.')}
