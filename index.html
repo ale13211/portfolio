@@ -1,155 +1,72 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Alejandro Insfran | Backend Developer</title>
-  <meta name="description" content="Backend Developer en sistemas financieros de alta criticidad. SQL, PL/SQL, Python/Django, JavaScript y Docker." />
-  <meta property="og:title" content="Alejandro Insfran | Backend Developer" />
-  <meta property="og:description" content="Sistemas financieros de alta criticidad y productos web de punta a punta." />
-  <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#05060D" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='8' y='14' width='84' height='72' rx='18' fill='%23F97316'/><text x='50' y='64' font-size='38' text-anchor='middle' fill='white' font-family='Arial' font-weight='900'>AI</text></svg>" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=5" />
-  <script type="importmap">{ "imports": { "three": "./three.module.min.js" } }</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Portfolio de Alejandro Insfran — desarrollador de datos y sistemas.">
+  <meta name="theme-color" content="#08090c">
+  <title>Alejandro Insfran — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <a class="skip" href="#main" data-i18n="skip">Saltar al contenido</a>
-
-  <!-- Escena 3D (fondo fijo) -->
-  <canvas id="scene" class="scene" aria-hidden="true"></canvas>
-  <div class="stars-fallback" aria-hidden="true"></div>
-
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="#top" id="brand-name">Alejandro Insfran</a>
-      <nav class="nav" aria-label="Principal">
-        <a href="#fortalezas" data-i18n="nav.strengths">Fortalezas</a>
-        <a href="#stack" data-i18n="nav.stack">Stack</a>
-        <a href="#experiencia" data-i18n="nav.experience">Experiencia</a>
-        <a href="#proyectos" data-i18n="nav.projects">Proyectos</a>
-        <a href="#contacto" data-i18n="nav.contact">Contacto</a>
-      </nav>
-      <button class="lang-toggle" id="lang-toggle" type="button">EN</button>
-    </div>
+  <header class="header wrap">
+    <a class="brand" href="#inicio">alejandro<span>.</span>dev</a>
+    <nav aria-label="Navegación principal">
+      <a href="#proyectos">Proyectos</a><a href="#experiencia">Experiencia</a><a href="#contacto">Contacto</a>
+    </nav>
+    <a class="header-cta" href="CV_Alejandro_Insfran_ES.pdf" download>CV ↓</a>
   </header>
-
-  <main id="main">
-    <!-- HERO -->
-    <section class="hero" id="top" data-stage="hero">
-      <div class="container">
-        <div class="hero-text">
-          <p class="hero-hello reveal" data-i18n="hero.hello">Hola, soy</p>
-          <h1 class="hero-name reveal" id="hero-name">Alejandro Insfran</h1>
-          <p class="hero-role reveal" data-i18n="hero.role"></p>
-          <p class="hero-lead reveal" data-i18n="hero.lead"></p>
-          <div class="hero-actions reveal">
-            <a class="btn btn-primary" href="#proyectos" data-i18n="hero.cta.projects">Ver proyectos</a>
-            <a class="btn btn-ghost" id="cv-link" href="CV_Alejandro_Insfran_ES.pdf" download data-i18n="hero.cta.cv">Descargar CV</a>
-          </div>
-          <p class="hero-status reveal"><span class="dot" aria-hidden="true"></span><span data-i18n="hero.status"></span></p>
-        </div>
-      </div>
-      <a class="scroll-cue" href="#fortalezas" aria-label="Bajar"><span></span></a>
+  <main class="wrap" id="inicio">
+    <section class="hero-grid section" aria-labelledby="title">
+      <article class="card intro">
+        <p class="eyebrow">DESARROLLADOR DE DATOS Y SISTEMAS</p>
+        <h1 id="title">Alejandro<br>Insfran<span>.</span></h1>
+        <p class="lead">Construyo productos y sistemas confiables donde <strong>los datos importan</strong>.</p>
+        <div class="chips"><span>SQL</span><span>PL/SQL</span><span>Python</span><span>JavaScript</span><span>PostgreSQL</span></div>
+      </article>
+      <a class="card mini-card work-link" href="#proyectos">
+        <p class="eyebrow">TRABAJO DESTACADO</p><h2>Productos<br>reales <b>↗</b></h2>
+      </a>
+      <a class="card mini-card linkedin" href="https://www.linkedin.com/in/alejandro-daniel-insfran-ca%C3%B1ete-721518279" target="_blank" rel="noreferrer">
+        <p class="eyebrow">ENCUÉNTRAME EN</p><h2>LinkedIn <b>↗</b></h2>
+      </a>
     </section>
-
-    <!-- FORTALEZAS -->
-    <section class="section" id="fortalezas" data-stage="aside">
-      <div class="container">
-        <h2 class="big-title" data-i18n="strengths.title">Lo que hago bien</h2>
-        <div class="strengths" id="strengths-list"></div>
-      </div>
+    <div class="marquee" aria-hidden="true"><span>Datos precisos ✦ Sistemas confiables ✦ Productos de punta a punta ✦ Datos precisos ✦ Sistemas confiables ✦</span></div>
+    <section class="feature-grid section" aria-label="Resumen profesional">
+      <article class="card blue job-card">
+        <p class="eyebrow">EXPERIENCIA ACTUAL</p><h2>Zeta Banco</h2><p>Analista Core Bancario</p>
+        <div class="icons">Oracle SQL · PL/SQL · Forms · Reports</div>
+      </article>
+      <article class="card violet study-card">
+        <p class="eyebrow">ENFOQUE</p><h2>Backend &<br>datos</h2><p>Diseño soluciones que conectan reglas de negocio, bases de datos y una experiencia clara.</p>
+      </article>
     </section>
-
-    <!-- SKILLS 3D -->
-    <section class="skills-stage" id="stack" data-stage="skills">
-      <div class="container skills-head">
-        <h2 class="big-title skills-title" data-i18n="stack.title">Skills</h2>
-        <p class="skills-hint" data-i18n="skills.hint"></p>
-      </div>
-      <div class="skill-callout" id="skill-callout" aria-live="polite">
-        <p class="skill-callout-name" id="callout-name"></p>
-        <p class="skill-callout-phrase" id="callout-phrase"></p>
-        <p class="skill-callout-level" id="callout-level"></p>
-      </div>
-      <div class="container skills-list-wrap no-3d">
-        <details class="skills-details" id="skills-details">
-          <summary data-i18n="skills.list">Ver como lista</summary>
-          <ul class="legend">
-            <li><span class="chip chip-daily" aria-hidden="true"></span><span data-i18n="stack.legend.daily"></span></li>
-            <li><span class="chip chip-projects" aria-hidden="true"></span><span data-i18n="stack.legend.projects"></span></li>
-            <li><span class="chip chip-learning" aria-hidden="true"></span><span data-i18n="stack.legend.learning"></span></li>
-          </ul>
-          <div class="skills" id="skills-list"></div>
-        </details>
+    <section id="proyectos" class="section">
+      <div class="section-heading"><p class="eyebrow">SELECCIÓN</p><h2>Proyectos</h2></div>
+      <div class="projects-grid">
+        <article class="project card project-main"><div><p class="eyebrow">FINTECH · WEB APP</p><h3>WalletIQ</h3><p>Finanzas personales para Paraguay y LATAM: gastos, ingresos, multimoneda, escáner de recibos y asistente financiero con IA.</p><ul><li>Supabase con RLS</li><li>Claude API</li><li>30 días de prueba</li></ul></div><a href="demos/walletiq/">Abrir demo ↗</a> <a href="https://glowing-rugelach-0b87c0.netlify.app" target="_blank" rel="noreferrer">Ver sitio ↗</a></article>
+        <article class="project card"><p class="eyebrow">SAAS · VENTAS</p><h3>SalesClose</h3><p>Plataforma multiempresa para organizar leads, conversaciones y plantillas de venta en WhatsApp.</p><div class="tags"><span>JavaScript</span><span>PostgreSQL</span><span>Supabase</span></div><a href="demos/salesclose/">Abrir demo ↗</a></article>
+        <article class="project card"><p class="eyebrow">FULL STACK · EN DESARROLLO</p><h3>ERP multinegocio</h3><p>Ventas, inventario, comisiones y rentabilidad por negocio en un panel consolidado.</p><div class="tags"><span>Next.js</span><span>TypeScript</span><span>Tailwind</span></div><a href="demos/erp/">Abrir demo ↗</a></article>
+        <article class="project card"><p class="eyebrow">BACKEND · APRENDIZAJE</p><h3>Casa de cambios</h3><p>Sistema en Django para modelar operaciones de compra y venta de divisas.</p><div class="tags"><span>Python</span><span>Django</span><span>Git</span></div><a href="demos/casa-cambios/">Abrir demo ↗</a></article>
       </div>
     </section>
-
-    <!-- EXPERIENCIA -->
-    <section class="section" id="experiencia" data-stage="aside">
-      <div class="container">
-        <h2 class="big-title" data-i18n="experience.title">Experiencia</h2>
-        <ol class="timeline" id="experience-list"></ol>
-      </div>
+    <section id="experiencia" class="section experience">
+      <div class="section-heading"><p class="eyebrow">RECORRIDO</p><h2>Experiencia</h2></div>
+      <ol>
+        <li><div><strong>Analista Core Bancario</strong><span>Zeta Banco S.A.E.C.A.</span></div><time>ene. 2026 — hoy</time><p>Diagnostico y resuelvo incidencias de préstamos, garantías, tarjetas y cuentas con Oracle SQL, PL/SQL, Oracle Forms y Reports. Investigo causas raíz, corrijo reportes de riesgo y parametrizo reglas de negocio por módulo, moneda y oficina.</p></li>
+        <li><div><strong>Analista / Soporte de Sistemas</strong><span>Zeta Banco S.A.E.C.A.</span></div><time>feb. 2023 — ene. 2026</time><p>Optimicé consultas SQL de préstamos y créditos, analicé históricos de cuentas para explicar diferencias de saldos y corregí incidencias PL/SQL en reportes de liquidez.</p></li>
+      </ol>
     </section>
-
-    <!-- PROYECTOS -->
-    <section class="section" id="proyectos" data-stage="projects">
-      <div class="container">
-        <div class="section-head">
-          <h2 class="big-title" data-i18n="projects.title">Proyectos</h2>
-          <div class="filters" id="project-filters" role="group" aria-label="Filtrar proyectos"></div>
-        </div>
-        <div class="projects" id="projects-list"></div>
-      </div>
-    </section>
-
-    <!-- CONTACTO -->
-    <section class="section contact" id="contacto" data-stage="contact">
-      <div class="container contact-grid">
-        <div>
-          <h2 class="big-title contact-title" data-i18n="contact.big">Trabajemos juntos</h2>
-          <p class="contact-text" data-i18n="contact.text"></p>
-          <form class="contact-form" id="contact-form">
-            <label>
-              <span data-i18n="contact.name">Tu nombre</span>
-              <input name="name" type="text" autocomplete="name" required />
-            </label>
-            <label>
-              <span>Email</span>
-              <input name="email" type="email" autocomplete="email" required placeholder="nombre@empresa.com" />
-            </label>
-            <label>
-              <span data-i18n="contact.message">Mensaje</span>
-              <textarea name="message" rows="4" required></textarea>
-            </label>
-            <button class="btn btn-primary" type="submit" data-i18n="contact.send">Enviar mensaje</button>
-          </form>
-          <ul class="contact-links">
-            <li><a id="contact-mail" href="mailto:aleinsfranwork@gmail.com">Email</a></li>
-            <li><a id="link-linkedin" href="https://www.linkedin.com/in/alejandro-daniel-insfran-ca%C3%B1ete-721518279" target="_blank" rel="noopener">LinkedIn</a></li>
-            <li><a id="link-github" href="https://github.com/ale13211" target="_blank" rel="noopener">GitHub</a></li>
-          </ul>
-        </div>
-      </div>
+    <section id="contacto" class="contact section card">
+      <p class="eyebrow">¿TENÉS UN RETO INTERESANTE?</p><h2>Hagámoslo<br>bien<span>.</span></h2>
+      <p>Si necesitás construir o mejorar un sistema donde la precisión sea importante, conversemos.</p>
+      <div><a class="button" href="mailto:aleinsfranwork@gmail.com">Escribirme por email ↗</a><a class="text-link" href="https://github.com/ale13211" target="_blank" rel="noreferrer">GitHub ↗</a></div>
     </section>
   </main>
-
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p id="footer-name"></p>
-      <p data-i18n="footer.built"></p>
-    </div>
-  </footer>
-
-  <dialog class="project-dialog" id="project-dialog" aria-labelledby="dialog-title">
-    <div class="dialog-inner" id="dialog-content"></div>
-  </dialog>
-
-  <script src="data.js?v=5"></script>
-  <script type="module" src="main.js?v=5"></script>
+  <footer class="wrap"><span>© <span id="year"></span> Alejandro Insfran</span><span>Hecho con HTML, CSS y JavaScript</span></footer>
+  <script src="main.js"></script>
 </body>
 </html>
