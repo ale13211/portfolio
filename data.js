@@ -10,7 +10,7 @@ const PROFILE = {
   email: "aleinsfranwork@gmail.com",
   github: "https://github.com/ale13211",
   linkedin: "https://www.linkedin.com/in/alejandro-daniel-insfran-ca%C3%B1ete-721518279",
-  cv: { es: "CV_Alejandro_Insfran_ES.pdf", en: "CV_Alejandro_Insfran_EN.pdf" },
+  cv: { es: "CV_Alejandro_Insfran_EN.pdf", en: "CV_Alejandro_Insfran_EN.pdf" },
   location: { es: "San Lorenzo, Paraguay", en: "San Lorenzo, Paraguay" },
 };
 
