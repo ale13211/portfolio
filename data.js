@@ -428,4 +428,36 @@ const PROJECTS = [
     repo: null,
     image: null,
   },
+  {
+    slug: "ats-beater",
+    name: "ATS Beater",
+    category: "fullstack",
+    status: { es: "Demo pública", en: "Public demo" },
+    summary: {
+      es: "Analizador transparente para comparar un CV con una oferta laboral.",
+      en: "Transparent tool to compare a resume with a job description.",
+    },
+    description: {
+      es: "Aplicación full-stack que extrae habilidades de un CV y una descripción de puesto, muestra coincidencias y faltantes, y permite comparar revisiones.",
+      en: "Full-stack application that extracts skills from a resume and job description, highlights matches and gaps, and compares revisions.",
+    },
+    highlights: {
+      es: [
+        "Motor de coincidencia de palabras clave con catálogo explícito y explicable.",
+        "Carga de PDF o texto pegado, sin persistir los CV enviados.",
+        "API REST con Django y frontend responsive en React + TypeScript.",
+        "Desarrollo dockerizado con PostgreSQL y CI automatizada.",
+      ],
+      en: [
+        "Explicit, explainable keyword-matching engine.",
+        "PDF upload or pasted text, with submitted resumes processed in memory.",
+        "Django REST API and responsive React + TypeScript frontend.",
+        "Dockerized development with PostgreSQL and automated CI.",
+      ],
+    },
+    stack: ["Python", "Django REST Framework", "PostgreSQL", "React", "TypeScript", "Docker", "Vercel", "Render"],
+    demo: "https://ats-beater-ebon.vercel.app",
+    repo: "https://github.com/ale13211/ats-beater",
+    image: null,
+  },
 ];
