@@ -4,3 +4,6 @@
 
 /* Móvil: la foto va arriba del texto, en el flujo normal, para no tapar el título */
 @media(max-width:720px){.intro{justify-content:flex-start;gap:0}.profile-photo{position:static;width:96px;margin:0 0 22px;align-self:flex-start}.intro h1{max-width:100%}}
+
+/* Móvil muy chico: la marca FP-UNA no debe salirse de la tarjeta */
+@media(max-width:400px){.study-card{padding:24px;flex-wrap:wrap}.una-mark{width:96px;max-width:100%}}
